@@ -28,7 +28,6 @@
 
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
-  --fs-md: 0.9375rem;
   --fs-base: 1rem;
   --fs-lg: 1.125rem;
   --fs-xl: 1.25rem;
@@ -345,7 +344,7 @@ section {
 }
 .btn-primary {
   background: var(--orange);
-  color: var(--on-accent);
+  color: var(--cream);
 }
 .btn-primary:hover {
   background: color-mix(in srgb, var(--orange) 82%, var(--bg));
@@ -456,9 +455,11 @@ section {
   overflow: hidden;
   padding-bottom: 0.08em;
 }
+.hero h1 .line > span {
+  display: inline-block;
+}
 .hero p.lede {
   margin-top: 1.1rem;
-  font-size: var(--fs-md);
   color: var(--text-soft);
   margin-inline: auto;
 }
