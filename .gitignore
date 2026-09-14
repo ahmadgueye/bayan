@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# BluuNext font source repo (reference only; webfonts copied to src/fonts/bluu-next)
+/BluuNext-master
