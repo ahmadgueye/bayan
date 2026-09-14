@@ -156,29 +156,6 @@ section {
   font-size: clamp(var(--fs-3xl), 3.2vw, var(--fs-4xl));
 }
 
-/* ---------- spine ---------- */
-.spine {
-  position: fixed;
-  left: clamp(10px, 3vw, 28px);
-  top: 0;
-  width: 1px;
-  height: 100vh;
-  z-index: 40;
-  background: var(--rule);
-  display: none;
-}
-.spine__fill {
-  width: 100%;
-  height: 0%;
-  background: var(--orange);
-  transform-origin: top;
-}
-@media (min-width: 1080px) {
-  .spine {
-    display: block;
-  }
-}
-
 /* ---------- nav ---------- */
 .nav {
   position: sticky;
@@ -397,7 +374,7 @@ section {
   );
   position: relative;
   isolation: isolate;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   background:
     linear-gradient(var(--bg), var(--bg)) padding-box,
     var(--grad) border-box;
@@ -445,13 +422,18 @@ section {
   overflow: hidden;
 }
 .hero-copy {
-  max-width: 38rem;
+  max-width: 52rem;
   text-align: center;
   margin-inline: auto;
 }
 .hero h1 {
   font-size: clamp(var(--fs-4xl), 5vw, var(--fs-5xl));
   overflow: hidden;
+  width: 100vw;
+  max-width: 76rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding-inline: clamp(1.5rem, 5vw, 4.5rem);
 }
 .hero h1 .line {
   display: block;

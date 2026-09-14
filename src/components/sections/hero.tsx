@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const EASE = [0.16, 0.8, 0.24, 1] as const;
 
-const lines = ["Posez des bases", "solides en Islam,", "avec clarté."];
+const lines = ["Posez des bases solides en Islam,", "avec clarté."];
 
 export function Hero() {
   return (
@@ -22,7 +22,7 @@ export function Hero() {
                   ease: EASE,
                   delay: 0.05 + i * 0.11,
                 }}
-                style={i === 2 ? { color: "var(--orange)" } : undefined}
+                style={i === 1 ? { color: "var(--orange)" } : undefined}
               >
                 {line}
               </motion.span>
