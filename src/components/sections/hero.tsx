@@ -15,6 +15,7 @@ export function Hero() {
           {lines.map((line, i) => (
             <span className="line" key={line}>
               <motion.span
+                className={i === 1 ? "text-gradient-animate" : undefined}
                 initial={{ y: "110%" }}
                 animate={{ y: 0 }}
                 transition={{
@@ -22,7 +23,6 @@ export function Hero() {
                   ease: EASE,
                   delay: 0.05 + i * 0.11,
                 }}
-                style={i === 1 ? { color: "var(--orange)" } : undefined}
               >
                 {line}
               </motion.span>
