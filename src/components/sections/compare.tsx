@@ -1,25 +1,47 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, type Variants } from "framer-motion";
+import { Footprints, ShieldCheck, CalendarCheck2, UserCheck } from "lucide-react";
 
 const EASE = [0.16, 0.8, 0.24, 1] as const;
 
 const TITLE =
   "Bayân n’est pas un institut supérieur — et ce n’est pas un hasard";
 
-const NOT_LIST = [
-  "Un institut supérieur de sciences islamiques",
-  "Des promesses irréalistes ou un apprentissage précipité",
-  "Une formation sans suivi ni cadre pédagogique",
-  "Un programme réservé aux profils avancés",
-];
+const ACCENT_COLOR: Record<string, string> = {
+  orange: "var(--orange)",
+  gold: "var(--gold-ink)",
+  sky: "var(--sky-ink)",
+  "text-soft": "var(--text-soft)",
+};
 
-const IS_LIST = [
-  "Une progression pas à pas, adaptée aux débutants",
-  "Une méthodologie claire et authentique",
-  "Un cadre sérieux, bienveillant et accessible",
-  "Un suivi hebdomadaire réel, par un enseignant",
-];
+const ITEMS = [
+  {
+    icon: Footprints,
+    myth: "Un institut supérieur de sciences islamiques",
+    truth: "Une progression pas à pas, pensée pour les vrais débutants.",
+    accent: "orange",
+  },
+  {
+    icon: ShieldCheck,
+    myth: "Des promesses irréalistes, un apprentissage précipité",
+    truth: "Une méthodologie claire et authentique, sans raccourci.",
+    accent: "gold",
+  },
+  {
+    icon: CalendarCheck2,
+    myth: "Une formation sans suivi ni cadre pédagogique",
+    truth: "Un cadre sérieux et bienveillant, avec un suivi hebdomadaire réel.",
+    accent: "sky",
+  },
+  {
+    icon: UserCheck,
+    myth: "Un programme réservé aux profils avancés",
+    truth: "Un accompagnement personnalisé, assuré par un enseignant, à votre rythme.",
+    accent: "text-soft",
+  },
+] as const;
 
 const headVariants: Variants = {
   hidden: {},
@@ -42,170 +64,117 @@ const wordVariants: Variants = {
   show: { y: "0%", transition: { duration: 0.55, ease: EASE } },
 };
 
-const listContainer: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
-};
-const listItem: Variants = {
-  hidden: { opacity: 0, y: 14 },
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+};
+const redactVariants: Variants = {
+  hidden: { scaleX: 1 },
+  show: { scaleX: 0, transition: { duration: 0.5, ease: EASE, delay: 0.15 } },
 };
 const strikeVariants: Variants = {
   hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.45, ease: EASE, delay: 0.2 } },
+  show: { scaleX: 1, transition: { duration: 0.4, ease: EASE, delay: 0.6 } },
 };
-const checkVariants: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  show: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 0.45, ease: EASE, delay: 0.15 },
-  },
+const highlightVariants: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.5, ease: EASE, delay: 0.85 } },
 };
-const crossVariants: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  show: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 0.35, ease: EASE, delay: 0.15 },
-  },
-};
-
-function CrossIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2.5}
-      strokeLinecap="round"
-    >
-      <motion.line x1={5} y1={5} x2={19} y2={19} variants={crossVariants} />
-      <motion.line
-        x1={19}
-        y1={5}
-        x2={5}
-        y2={19}
-        variants={crossVariants}
-        transition={{ delay: 0.25 }}
-      />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <motion.path d="M4 12.5l5 5L20 6" variants={checkVariants} />
-    </svg>
-  );
-}
 
 export function Compare() {
+  const listRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    offset: ["start 0.75", "end 0.4"],
+  });
+
   return (
     <section>
       <div className="container">
-        <motion.div
-          className="section-head"
-          variants={headVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-10% 0px" }}
-        >
-          <motion.div className="compare-kicker" variants={kickerVariants}>
-            <span className="kicker-star" aria-hidden="true" />
-            <span>Pour être clair</span>
-            <motion.span className="compare-kicker-rule" variants={ruleVariants} />
-          </motion.div>
-          <motion.h2 variants={wordGroupVariants}>
-            {TITLE.split(" ").map((word, i) => (
-              <span className="word-mask" key={`${word}-${i}`}>
-                <motion.span className="word" variants={wordVariants}>
-                  {word}
-                </motion.span>
-              </span>
-            ))}
-          </motion.h2>
-        </motion.div>
-
-        <div className="compare-grid-wrap">
-          <motion.span
-            className="compare-divider"
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
+        <div className="dossier-layout">
+          <motion.div
+            className="section-head dossier-head"
+            variants={headVariants}
+            initial="hidden"
+            whileInView="show"
             viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.9, ease: EASE }}
-            aria-hidden="true"
-          />
-          <div className="compare-grid">
-            <motion.div
-              className="compare-card no"
-              initial={{ opacity: 0, x: -36, rotate: -2.5, scale: 0.97 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
-              <h3>
-                <span className="dot" />
-                Bayān n&rsquo;est pas
-              </h3>
-              <motion.ul
-                variants={listContainer}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-10% 0px" }}
-              >
-                {NOT_LIST.map((item) => (
-                  <motion.li key={item} variants={listItem}>
-                    <span className="compare-icon no">
-                      <CrossIcon />
-                    </span>
-                    <span className="compare-text">
-                      <motion.span
-                        className="compare-strike"
-                        variants={strikeVariants}
-                      />
-                      {item}
-                    </span>
-                  </motion.li>
-                ))}
-              </motion.ul>
+          >
+            <motion.div className="compare-kicker" variants={kickerVariants}>
+              <span className="kicker-star" aria-hidden="true" />
+              <span>Pour être clair</span>
+              <motion.span
+                className="compare-kicker-rule"
+                variants={ruleVariants}
+              />
             </motion.div>
+            <motion.h2 variants={wordGroupVariants}>
+              {TITLE.split(" ").map((word, i) => (
+                <span className="word-mask" key={`${word}-${i}`}>
+                  <motion.span className="word" variants={wordVariants}>
+                    {word}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.h2>
+          </motion.div>
 
-            <motion.div
-              className="compare-card yes"
-              initial={{ opacity: 0, x: 36, rotate: 2.5, scale: 0.97 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.08 }}
-            >
-              <h3>
-                <span className="dot" />
-                Bayān est
-              </h3>
-              <motion.ul
-                variants={listContainer}
+          <div className="dossier-list" ref={listRef}>
+            <span className="dossier-rail" aria-hidden="true">
+              <motion.span
+                className="dossier-rail-fill"
+                style={{ scaleY: scrollYProgress }}
+              />
+            </span>
+
+            {ITEMS.map((item) => {
+              const Icon = item.icon;
+              return (
+              <motion.div
+                className="dossier-row"
+                key={item.myth}
+                variants={rowVariants}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, margin: "-10% 0px" }}
+                viewport={{ once: true, margin: "-15% 0px" }}
               >
-                {IS_LIST.map((item) => (
-                  <motion.li key={item} variants={listItem}>
-                    <span className="compare-icon yes">
-                      <CheckIcon />
-                    </span>
-                    <span className="compare-text">{item}</span>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </motion.div>
+                <span
+                  className="dossier-icon"
+                  style={{
+                    background: `color-mix(in srgb, var(--${item.accent}) 20%, transparent)`,
+                    color: ACCENT_COLOR[item.accent],
+                  }}
+                >
+                  <Icon strokeWidth={1.75} />
+                </span>
+                <div className="dossier-body">
+                  <p className="dossier-myth">
+                    <motion.span
+                      className="dossier-redact"
+                      variants={redactVariants}
+                      style={{ originX: 1 }}
+                      aria-hidden="true"
+                    />
+                    <motion.span
+                      className="dossier-strike"
+                      variants={strikeVariants}
+                      style={{ originX: 0 }}
+                      aria-hidden="true"
+                    />
+                    {item.myth}
+                  </p>
+                  <p className="dossier-truth">
+                    <motion.span
+                      className="dossier-highlight"
+                      variants={highlightVariants}
+                      style={{ originX: 0 }}
+                      aria-hidden="true"
+                    />
+                    <span className="dossier-truth-text">{item.truth}</span>
+                  </p>
+                </div>
+              </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

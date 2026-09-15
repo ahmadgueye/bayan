@@ -24,6 +24,7 @@
   --gold-ink: color-mix(in srgb, var(--gold) 62%, var(--ink));
   --sky-ink: color-mix(in srgb, var(--sky) 55%, var(--ink));
   --panel-tint: color-mix(in srgb, var(--tan) 30%, var(--cream));
+  --redact: #14100c;
 
   --font-titling:
     var(--font-bluu-titling), var(--font-bluu), ui-serif, Georgia, serif;
@@ -62,6 +63,7 @@
   --gold-ink: var(--gold);
   --sky-ink: var(--sky);
   --panel-tint: color-mix(in srgb, var(--ink) 70%, black);
+  --redact: #050302;
   color-scheme: dark;
 }
 
@@ -1053,117 +1055,129 @@ section {
   background: var(--rule);
   transform-origin: left;
 }
-.compare-grid-wrap {
-  position: relative;
-}
-.compare-divider {
-  position: absolute;
-  top: 0.5rem;
-  bottom: 0.5rem;
-  left: 50%;
-  width: 2px;
-  transform: translateX(-50%);
-  transform-origin: top center;
-  background: linear-gradient(180deg, var(--orange), var(--gold), var(--sky));
-  border-radius: 2px;
-  opacity: 0.55;
-}
-.compare-grid {
+.dossier-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
 }
-@media (max-width: 760px) {
-  .compare-grid {
+.dossier-head.section-head {
+  margin-bottom: 0;
+  position: sticky;
+  top: clamp(5rem, 12vh, 7.5rem);
+  align-self: start;
+}
+@media (max-width: 900px) {
+  .dossier-layout {
     grid-template-columns: 1fr;
   }
-  .compare-divider {
-    display: none;
+  .dossier-head.section-head {
+    position: static;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 }
-.compare-card {
-  border-radius: var(--radius);
-  padding: 1.6rem;
-  border: 1px solid var(--card-border);
-  border-top: 2px solid var(--card-border);
-  background: var(--panel-tint);
-}
-.compare-card.no {
-  border-top-color: var(--orange);
-}
-.compare-card.yes {
-  border-top-color: var(--sky);
-}
-.compare-card h3 {
-  font-size: var(--fs-sm);
-  font-family: var(--font-manrope), sans-serif;
-  font-weight: 600;
-  margin-bottom: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.compare-card h3 .dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-}
-.compare-card.no h3 .dot {
-  background: var(--orange);
-}
-.compare-card.yes h3 .dot {
-  background: var(--sky);
-}
-.compare-card ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.dossier-list {
+  position: relative;
   display: grid;
-  gap: 0.8rem;
+  gap: clamp(2.25rem, 5vw, 3.5rem);
 }
-.compare-card li {
+.dossier-rail {
+  position: absolute;
+  left: 3.25rem;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 1.5px;
+  background: var(--rule);
+}
+.dossier-rail-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--orange), var(--gold), var(--sky));
+  transform-origin: top;
+}
+.dossier-row {
   display: flex;
-  gap: 0.65rem;
-  font-size: var(--fs-sm);
-  color: var(--text-soft);
+  gap: 1.5rem;
   align-items: flex-start;
 }
-.compare-icon {
+.dossier-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.7rem;
-  height: 1.7rem;
-  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border-radius: var(--radius);
+}
+.dossier-icon svg {
+  width: 18px;
+  height: 18px;
   flex: none;
 }
-.compare-icon svg {
-  width: 13px;
-  height: 13px;
-  flex: none;
+.dossier-body {
+  display: grid;
+  gap: 0.65rem;
+  flex: 1;
+  min-width: 0;
 }
-.compare-icon.no {
-  background: color-mix(in srgb, var(--orange) 18%, transparent);
-  color: var(--orange);
-}
-.compare-icon.yes {
-  background: color-mix(in srgb, var(--sky) 26%, transparent);
-  color: var(--sky-ink);
-}
-.compare-text {
+.dossier-myth {
   position: relative;
-  padding-top: 0.2rem;
+  justify-self: start;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--muted);
 }
-.compare-strike {
+.dossier-redact {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 55%;
+  inset: -0.1em -0.2em;
+  background: var(--redact);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.dossier-strike {
+  position: absolute;
+  left: -0.2em;
+  right: -0.2em;
+  top: 50%;
   height: 1.5px;
-  background: var(--orange);
+  background: var(--muted);
   transform-origin: left center;
+}
+.dossier-truth {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-bluu), ui-serif, Georgia, serif;
+  font-size: clamp(var(--fs-lg), 1.6vw, var(--fs-xl));
+  color: var(--text);
+  line-height: 1.35;
+}
+.dossier-highlight {
+  position: absolute;
+  inset: 0.05em -0.25em;
+  background: var(--panel-tint);
+  transform-origin: left;
+}
+.dossier-truth-text {
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .dossier-rail {
+    left: 2.5rem;
+  }
+  .dossier-row {
+    gap: 1rem;
+  }
+  .dossier-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  .dossier-icon svg {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 /* ---------- curriculum ---------- */
