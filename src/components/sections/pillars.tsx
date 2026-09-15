@@ -154,8 +154,8 @@ export function Pillars() {
               viewport={{ once: true, margin: "-10% 0px" }}
             >
               <motion.div className="pillars-kicker" variants={kickerVariants}>
+                <span className="kicker-star" aria-hidden="true" />
                 <span>Trois piliers</span>
-                <motion.span className="pillars-kicker-rule" variants={ruleVariants} />
               </motion.div>
               <motion.h2 className="pillars-title" variants={wordGroupVariants}>
                 {words.map((word, i) => (
@@ -169,21 +169,32 @@ export function Pillars() {
             </motion.div>
             <div className="pillars-progress">
               <span className="pillars-progress-track">
-                <motion.span className="pillars-progress-fill" style={{ height: fillHeight }} />
+                <motion.span
+                  className="pillars-progress-fill"
+                  style={{ height: fillHeight }}
+                />
               </span>
               <ul>
                 {PILLARS.map((pillar, i) => (
-                  <li key={pillar.n} className={i === active ? "is-active" : undefined}>
+                  <li
+                    key={pillar.n}
+                    className={i === active ? "is-active" : undefined}
+                  >
                     <button
                       type="button"
                       onClick={() =>
                         document
                           .getElementById(`pillar-${pillar.n}`)
-                          ?.scrollIntoView({ behavior: "smooth", block: "center" })
+                          ?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          })
                       }
                     >
                       <span className="pillars-progress-n">{pillar.n}</span>
-                      <span className="pillars-progress-label">{pillar.title}</span>
+                      <span className="pillars-progress-label">
+                        {pillar.title}
+                      </span>
                     </button>
                   </li>
                 ))}
@@ -192,7 +203,12 @@ export function Pillars() {
           </div>
           <div className="pillars-panels" ref={panelsRef}>
             {PILLARS.map((pillar, i) => (
-              <PillarPanel pillar={pillar} index={i} onActive={setActive} key={pillar.title} />
+              <PillarPanel
+                pillar={pillar}
+                index={i}
+                onActive={setActive}
+                key={pillar.title}
+              />
             ))}
           </div>
         </div>

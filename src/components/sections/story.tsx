@@ -64,6 +64,7 @@ export function Story() {
         </Reveal>
         <Reveal>
           <div className="story-kicker">
+            <span className="kicker-star" aria-hidden="true" />
             <span>L&rsquo;histoire de Bayân</span>
           </div>
           <div className="story-quote">
