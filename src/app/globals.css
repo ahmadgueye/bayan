@@ -196,16 +196,22 @@ section {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 1rem clamp(1.5rem, 5vw, 4.5rem);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding-block: 1rem;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid transparent;
   transition:
     border-color 0.35s var(--ease),
     background 0.35s var(--ease);
+}
+.nav-inner {
+  width: 100%;
+  max-width: var(--wide-w);
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 5vw, 4.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .nav.is-scrolled {
   border-bottom-color: var(--rule);
