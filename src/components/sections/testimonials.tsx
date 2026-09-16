@@ -32,19 +32,24 @@ export function Testimonials() {
     <section id="temoignages">
       <div className="container">
         <Reveal className="section-head">
-          <div className="testi-kicker">
+          <div className="flex items-center gap-[0.85rem] mb-4 font-sans text-lg text-muted">
             <span className="kicker-star" aria-hidden="true" />
             <span>Ils apprennent avec Bayān</span>
           </div>
           <h2>Ce qu&rsquo;en disent les étudiants</h2>
         </Reveal>
-        <StaggerGroup className="testi-grid">
+        <StaggerGroup className="grid grid-cols-2 gap-[1.1rem] max-[760px]:grid-cols-1">
           {TESTIMONIALS.map((t) => (
-            <StaggerItem className="testi-card" key={t.name}>
-              <div className="who">
+            <StaggerItem
+              className="bg-panel-tint text-text border border-card-border rounded-none p-[1.6rem] transition-[transform,box-shadow] duration-300 ease-brand hover:-translate-y-0.5 hover:shadow-[var(--shadow)]"
+              key={t.name}
+            >
+              <div className="flex items-center gap-2 mb-[0.85rem] font-serif text-lg">
                 {t.name} <span>{t.flag}</span>
               </div>
-              <p>&laquo;&nbsp;{t.quote}&nbsp;&raquo;</p>
+              <p className="text-text-soft text-sm leading-[1.65]">
+                &laquo;&nbsp;{t.quote}&nbsp;&raquo;
+              </p>
             </StaggerItem>
           ))}
         </StaggerGroup>

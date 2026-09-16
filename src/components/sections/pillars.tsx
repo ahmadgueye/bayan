@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import clsx from "clsx";
 import {
   motion,
   useInView,
@@ -10,6 +11,8 @@ import {
   type Variants,
 } from "framer-motion";
 import { BookOpen, Repeat2, Landmark } from "lucide-react";
+
+const ACCENTS = ["var(--color-orange)", "var(--color-gold)", "var(--color-sky)"];
 
 const EASE = [0.16, 0.8, 0.24, 1] as const;
 
@@ -94,15 +97,20 @@ function PillarPanel({
     <motion.article
       ref={panelRef}
       id={`pillar-${pillar.n}`}
-      className="pillar-card"
+      className="group relative aspect-[4/3] border border-[color-mix(in_srgb,var(--color-cream)_14%,transparent)] rounded-none overflow-hidden flex flex-col justify-between transition-[box-shadow,border-color] duration-300 ease-brand hover:shadow-[var(--shadow)] hover:border-[var(--accent)]"
+      style={{ "--accent": ACCENTS[index] } as React.CSSProperties}
       initial={{ opacity: 0, y: 30, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      whileHover={{
+        y: -6,
+        transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.6 },
+      }}
       viewport={{ once: true, margin: "-10% 0px" }}
       transition={{ duration: 0.7, ease: EASE }}
     >
-      <div className="thumb" ref={thumbRef}>
+      <div className="absolute inset-0 z-0 overflow-hidden" ref={thumbRef}>
         <motion.div
-          className="thumb-frame"
+          className="absolute inset-x-0 top-[-7%] bottom-[-7%]"
           style={{ y }}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.6, ease: EASE }}
@@ -116,16 +124,24 @@ function PillarPanel({
           />
         </motion.div>
       </div>
-      <div className="pillar-scrim" />
-      <div className="pillar-head">
-        <span className="pillar-n">{pillar.n}</span>
-        <span className="pillar-icon">
-          <Icon strokeWidth={2} />
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-[linear-gradient(to_top,color-mix(in_srgb,var(--color-brown)_88%,transparent)_0%,color-mix(in_srgb,var(--color-brown)_58%,transparent)_48%,color-mix(in_srgb,var(--color-brown)_38%,transparent)_100%)]" />
+      <div className="relative z-[2] flex items-end justify-between px-6 pt-6 pb-[1.1rem]">
+        <span
+          className="font-serif text-[clamp(2.25rem,4vw,2.75rem)] leading-none text-[var(--accent)] transition-transform duration-300 ease-brand group-hover:translate-x-[2px]"
+        >
+          {pillar.n}
+        </span>
+        <span className="flex items-center justify-center w-10 h-10 flex-none rounded-none backdrop-blur-[6px] bg-[color-mix(in_srgb,var(--accent)_30%,transparent)] text-[var(--accent)]">
+          <Icon className="w-[18px] h-[18px] flex-none" strokeWidth={2} />
         </span>
       </div>
-      <div className="body">
-        <h3>{pillar.title}</h3>
-        <p>{pillar.text}</p>
+      <div className="relative z-[2] px-[1.6rem] pt-[1.4rem] pb-[1.8rem]">
+        <h3 className="text-lg font-semibold mb-2 text-cream">
+          {pillar.title}
+        </h3>
+        <p className="text-[color-mix(in_srgb,var(--color-cream)_75%,transparent)] text-sm">
+          {pillar.text}
+        </p>
       </div>
     </motion.article>
   );
@@ -144,20 +160,26 @@ export function Pillars() {
   return (
     <section id="pedagogie">
       <div className="container">
-        <div className="pillars-layout">
-          <div className="pillars-sticky">
+        <div className="grid grid-cols-2 gap-[clamp(2rem,5vw,4.5rem)] items-start max-[900px]:grid-cols-1">
+          <div className="sticky top-[clamp(5rem,12vh,7.5rem)] self-start max-[900px]:static">
             <motion.div
-              className="pillars-head"
+              className="mb-[clamp(2rem,4vw,3rem)]"
               variants={headVariants}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-10% 0px" }}
             >
-              <motion.div className="pillars-kicker" variants={kickerVariants}>
+              <motion.div
+                className="flex items-center gap-[0.85rem] mb-4 font-sans text-lg text-muted"
+                variants={kickerVariants}
+              >
                 <span className="kicker-star" aria-hidden="true" />
                 <span>Trois piliers</span>
               </motion.div>
-              <motion.h2 className="pillars-title" variants={wordGroupVariants}>
+              <motion.h2
+                className="text-[clamp(var(--text-3xl),3.2vw,var(--text-4xl))]"
+                variants={wordGroupVariants}
+              >
                 {words.map((word, i) => (
                   <span className="word-mask" key={`${word}-${i}`}>
                     <motion.span className="word" variants={wordVariants}>
@@ -167,21 +189,22 @@ export function Pillars() {
                 ))}
               </motion.h2>
             </motion.div>
-            <div className="pillars-progress">
-              <span className="pillars-progress-track">
+            <div className="flex gap-[1.1rem] mt-[clamp(2.5rem,5vw,3.5rem)] max-[900px]:hidden">
+              <span className="relative w-px flex-none bg-rule">
                 <motion.span
-                  className="pillars-progress-fill"
+                  className="absolute top-0 left-0 w-full bg-orange [transform-origin:top]"
                   style={{ height: fillHeight }}
                 />
               </span>
-              <ul>
+              <ul className="list-none m-0 p-0 flex flex-col gap-[1.6rem]">
                 {PILLARS.map((pillar, i) => (
-                  <li
-                    key={pillar.n}
-                    className={i === active ? "is-active" : undefined}
-                  >
+                  <li key={pillar.n}>
                     <button
                       type="button"
+                      className={clsx(
+                        "flex items-baseline gap-[0.65rem] bg-transparent border-none p-0 cursor-pointer transition-colors duration-300 ease-brand",
+                        i === active ? "text-text" : "text-muted",
+                      )}
                       onClick={() =>
                         document
                           .getElementById(`pillar-${pillar.n}`)
@@ -191,8 +214,8 @@ export function Pillars() {
                           })
                       }
                     >
-                      <span className="pillars-progress-n">{pillar.n}</span>
-                      <span className="pillars-progress-label">
+                      <span className="font-serif text-lg">{pillar.n}</span>
+                      <span className="text-sm text-left">
                         {pillar.title}
                       </span>
                     </button>
@@ -201,7 +224,10 @@ export function Pillars() {
               </ul>
             </div>
           </div>
-          <div className="pillars-panels" ref={panelsRef}>
+          <div
+            className="flex flex-col gap-[clamp(4rem,9vh,6.5rem)] max-[900px]:gap-6"
+            ref={panelsRef}
+          >
             {PILLARS.map((pillar, i) => (
               <PillarPanel
                 pillar={pillar}

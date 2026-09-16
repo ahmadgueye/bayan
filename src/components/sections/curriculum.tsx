@@ -80,28 +80,41 @@ function JourneyBanner() {
   const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1.22]);
 
   return (
-    <div className="journey-banner" ref={bannerRef}>
-      <motion.div className="journey-banner-img" style={{ y, scale }}>
+    <div
+      className="relative h-[clamp(320px,46vw,480px)] mb-[clamp(3.5rem,7vw,5.5rem)] overflow-hidden border border-card-border max-[700px]:h-[clamp(300px,70vw,420px)]"
+      ref={bannerRef}
+    >
+      <motion.div
+        className="absolute inset-x-0 top-[-18%] bottom-[-18%]"
+        style={{ y, scale }}
+      >
         <Image
           src="/images/journey-banner.png"
           alt="Voyageur et chameau traversant le désert au coucher du soleil"
           width={1800}
           height={600}
+          className="w-full h-full object-cover object-[center_70%]"
         />
       </motion.div>
-      <div className="scrim" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,12,8,0.55),rgba(20,12,8,0.38)_45%,rgba(20,12,8,0.72))]" />
       <motion.div
-        className="cap"
+        className="absolute inset-0 flex flex-col items-center justify-center text-center p-[clamp(1.5rem,5vw,3rem)]"
         variants={headVariants}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-20% 0px" }}
       >
-        <motion.div className="eyebrow" variants={kickerVariants}>
+        <motion.div
+          className="flex items-center justify-center gap-[0.55em] font-semibold text-xs tracking-[0.1em] uppercase text-gold mb-[0.9rem]"
+          variants={kickerVariants}
+        >
           <span className="kicker-star" aria-hidden="true" />
           <span>Le programme, étape par étape</span>
         </motion.div>
-        <motion.h2 variants={wordGroupVariants}>
+        <motion.h2
+          className="text-cream text-[clamp(var(--text-3xl),5vw,var(--text-6xl))] max-w-[22ch]"
+          variants={wordGroupVariants}
+        >
           {TITLE.split(" ").map((word, i) => (
             <span className="word-mask" key={`${word}-${i}`}>
               <motion.span className="word" variants={wordVariants}>
@@ -120,21 +133,23 @@ function CurrStep({ step }: { step: (typeof STEPS)[number] }) {
 
   return (
     <motion.div
-      className="curr-row"
+      className="relative flex flex-col border border-card-border p-[clamp(1.5rem,3vw,2rem)]"
       initial={{ opacity: 0, y: 26 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-12% 0px" }}
       transition={{ duration: 0.65, ease: EASE }}
     >
-      <div className="curr-row-body">
-        <div className="curr-row-media">
-          <span className="curr-media-icon">
-            <Icon strokeWidth={1.5} />
+      <div className="flex flex-col gap-5">
+        <div className="relative w-[clamp(2.75rem,6vw,3.25rem)] aspect-square border border-dashed border-rule bg-bg-inset flex items-center justify-center overflow-hidden">
+          <span className="flex items-center justify-center text-muted transition-colors duration-[400ms] ease-brand">
+            <Icon className="w-6 h-6" strokeWidth={1.5} />
           </span>
         </div>
-        <div className="curr-row-content">
-          <h3>{step.title}</h3>
-          <p>{step.text}</p>
+        <div className="min-w-0">
+          <h3 className="text-[clamp(var(--text-base),1.5vw,var(--text-lg))] font-semibold mb-[0.4rem]">
+            {step.title}
+          </h3>
+          <p className="text-text-soft text-sm">{step.text}</p>
         </div>
       </div>
     </motion.div>
@@ -146,20 +161,24 @@ export function Curriculum() {
     <section id="programme" style={{ paddingTop: 0 }}>
       <JourneyBanner />
       <div className="container">
-        <div className="curr-rail-wrap">
+        <div className="grid grid-cols-3 gap-[clamp(1.5rem,3vw,2.25rem)] max-[700px]:grid-cols-1">
           {STEPS.map((step) => (
             <CurrStep step={step} key={step.n} />
           ))}
-          <div className="curr-row curr-more-card">
-            <div className="curr-row-body">
-              <div className="curr-row-media">
-                <span className="curr-media-icon">
-                  <Plus strokeWidth={1.5} />
+          <div className="relative flex flex-col border border-dashed border-rule p-[clamp(1.5rem,3vw,2rem)]">
+            <div className="flex flex-col gap-5">
+              <div className="relative w-[clamp(2.75rem,6vw,3.25rem)] aspect-square border border-dashed border-rule bg-bg-inset flex items-center justify-center overflow-hidden">
+                <span className="flex items-center justify-center text-muted transition-colors duration-[400ms] ease-brand">
+                  <Plus className="w-6 h-6" strokeWidth={1.5} />
                 </span>
               </div>
-              <div className="curr-row-content">
-                <h3>À venir</h3>
-                <p>Et d&rsquo;autres modules à venir, in shā&rsquo; Allah.</p>
+              <div className="min-w-0">
+                <h3 className="text-[clamp(var(--text-base),1.5vw,var(--text-lg))] font-semibold mb-[0.4rem] text-muted italic">
+                  À venir
+                </h3>
+                <p className="text-muted text-sm">
+                  Et d&rsquo;autres modules à venir, in shā&rsquo; Allah.
+                </p>
               </div>
             </div>
           </div>

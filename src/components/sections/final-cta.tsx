@@ -39,8 +39,11 @@ export function FinalCta() {
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.15]);
 
   return (
-    <section className="final-cta" ref={bannerRef}>
-      <motion.div className="final-cta-img" style={{ y, scale }}>
+    <section className="relative overflow-hidden text-center" ref={bannerRef}>
+      <motion.div
+        className="absolute inset-x-0 top-[-18%] bottom-[-18%]"
+        style={{ y, scale }}
+      >
         <Image
           src="/images/aqsa.webp"
           alt="Le Dôme du Rocher à la mosquée Al-Aqsa sous un ciel bleu"
@@ -49,8 +52,8 @@ export function FinalCta() {
           style={{ objectFit: "cover" }}
         />
       </motion.div>
-      <div className="scrim" />
-      <div className="container">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,12,8,0.55),rgba(20,12,8,0.45)_45%,rgba(20,12,8,0.78))]" />
+      <div className="relative w-full max-w-[42rem] mx-auto px-[clamp(1.5rem,5vw,4.5rem)]">
         <motion.div
           className="section-head"
           variants={headVariants}
@@ -58,11 +61,17 @@ export function FinalCta() {
           whileInView="show"
           viewport={{ once: true, margin: "-10% 0px" }}
         >
-          <motion.div className="final-cta-kicker" variants={kickerVariants}>
+          <motion.div
+            className="flex items-center justify-center gap-[0.85rem] mb-4 font-sans text-lg text-gold"
+            variants={kickerVariants}
+          >
             <span className="kicker-star" aria-hidden="true" />
             <span>Une dernière question ?</span>
           </motion.div>
-          <motion.h2 variants={wordGroupVariants}>
+          <motion.h2
+            className="text-cream text-[clamp(1.35rem,7.5vw,var(--text-5xl))] whitespace-nowrap mb-5"
+            variants={wordGroupVariants}
+          >
             {TITLE.split(" ").map((word, i) => (
               <span className="word-mask" key={`${word}-${i}`}>
                 <motion.span className="word" variants={wordVariants}>
@@ -73,7 +82,7 @@ export function FinalCta() {
           </motion.h2>
           <motion.a
             href="#"
-            className="btn btn-primary"
+            className="btn btn-primary mx-auto"
             variants={btnVariants}
           >
             Je pose ma question sur WhatsApp

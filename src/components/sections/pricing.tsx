@@ -2,6 +2,7 @@
 
 import { Check, Users, UserRound } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
+import clsx from "clsx";
 
 const EASE = [0.16, 0.8, 0.24, 1] as const;
 
@@ -80,41 +81,87 @@ function PriceCard({
 
   return (
     <motion.div
-      className={plan.featured ? "price-card featured" : "price-card"}
+      className={clsx(
+        "rounded-none p-[1.75rem] flex flex-col border transition-[transform,box-shadow] duration-300 ease-brand hover:-translate-y-[3px] hover:shadow-[var(--shadow)]",
+        plan.featured
+          ? "bg-ink text-cream border-ink"
+          : "bg-panel-tint border-card-border",
+      )}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-12% 0px" }}
       transition={{ duration: 0.65, ease: EASE, delay: index * 0.1 }}
     >
-      <div className="price-top">
+      <div className="flex items-center gap-3 mb-[1.1rem]">
         <span
-          className="price-icon"
+          className="flex items-center justify-center w-10 h-10 flex-none rounded-none"
           style={{
             color: `var(--${plan.accent})`,
             background: `color-mix(in srgb, var(--${plan.accent}) 18%, transparent)`,
           }}
         >
-          <Icon strokeWidth={1.75} />
+          <Icon className="w-[18px] h-[18px] flex-none" strokeWidth={1.75} />
         </span>
-        <div className="tag">{plan.tag}</div>
+        <div
+          className={clsx(
+            "h-5 inline-flex items-center text-xs font-semibold tracking-[0.04em] px-[0.55rem] rounded-none border",
+            plan.featured ? "text-gold border-gold" : "text-orange border-orange",
+          )}
+        >
+          {plan.tag}
+        </div>
       </div>
-      <h3>{plan.title}</h3>
-      <p className="desc">{plan.desc}</p>
-      <ul>
+      <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
+      <p
+        className={clsx(
+          "text-sm opacity-[0.82] mb-5",
+          plan.featured && "text-tan",
+        )}
+      >
+        {plan.desc}
+      </p>
+      <ul className="list-none m-0 mb-[1.4rem] p-0 grid gap-[0.7rem] flex-1">
         {plan.features.map((f) => (
-          <li key={f}>
-            <Check strokeWidth={2} />
+          <li key={f} className="flex gap-[0.6rem] text-sm items-start">
+            <Check
+              className={clsx(
+                "flex-none w-[14px] h-[14px] mt-[0.2rem]",
+                plan.featured ? "text-gold" : "text-orange",
+              )}
+              strokeWidth={2}
+            />
             {f}
           </li>
         ))}
       </ul>
-      <div className="price-row">
-        {plan.strike && <span className="strike">{plan.strike}</span>}
-        <span className="amount">
-          {plan.amount} <span>{plan.unit}</span>
+      <div
+        className={clsx(
+          "flex items-baseline gap-2 mb-[1.1rem] pt-[1.1rem] border-t",
+          plan.featured
+            ? "border-t-[rgba(245,245,237,0.16)]"
+            : "border-rule",
+        )}
+      >
+        {plan.strike && (
+          <span className="text-sm line-through opacity-[0.55]">
+            {plan.strike}
+          </span>
+        )}
+        <span className="font-serif text-2xl">
+          {plan.amount}{" "}
+          <span className="font-sans text-xs font-semibold opacity-70">
+            {plan.unit}
+          </span>
         </span>
       </div>
-      <a href="#" className="btn btn-primary">
+      <a
+        href="#"
+        className={
+          plan.featured
+            ? "btn bg-gold text-cream hover:bg-[color-mix(in_srgb,var(--color-orange)_82%,var(--color-bg))]"
+            : "btn btn-primary"
+        }
+      >
         {plan.cta}
       </a>
     </motion.div>
@@ -132,7 +179,10 @@ export function Pricing() {
           whileInView="show"
           viewport={{ once: true, margin: "-10% 0px" }}
         >
-          <motion.div className="pricing-kicker" variants={kickerVariants}>
+          <motion.div
+            className="flex items-center gap-[0.85rem] mb-4 font-sans text-lg text-muted"
+            variants={kickerVariants}
+          >
             <span className="kicker-star" aria-hidden="true" />
             <span>Découvrez nos offres</span>
           </motion.div>
@@ -146,7 +196,7 @@ export function Pricing() {
             ))}
           </motion.h2>
         </motion.div>
-        <div className="pricing-grid">
+        <div className="grid grid-cols-2 gap-5 items-stretch max-[860px]:grid-cols-1">
           {PLANS.map((plan, i) => (
             <PriceCard plan={plan} index={i} key={plan.title} />
           ))}

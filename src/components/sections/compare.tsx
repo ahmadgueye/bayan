@@ -72,10 +72,6 @@ const redactVariants: Variants = {
   hidden: { scaleX: 1 },
   show: { scaleX: 0, transition: { duration: 0.5, ease: EASE, delay: 0.15 } },
 };
-const strikeVariants: Variants = {
-  hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.4, ease: EASE, delay: 0.6 } },
-};
 const highlightVariants: Variants = {
   hidden: { scaleX: 0 },
   show: { scaleX: 1, transition: { duration: 0.5, ease: EASE, delay: 0.85 } },
@@ -91,23 +87,29 @@ export function Compare() {
   return (
     <section>
       <div className="container">
-        <div className="dossier-layout">
+        <div className="grid grid-cols-[1fr_1.2fr] gap-[clamp(2rem,5vw,4.5rem)] items-start max-[900px]:grid-cols-1">
           <motion.div
-            className="section-head dossier-head"
+            className="sticky top-[clamp(5rem,12vh,7.5rem)] self-start max-[900px]:static max-[900px]:mb-[clamp(2rem,4vw,3rem)]"
             variants={headVariants}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-10% 0px" }}
           >
-            <motion.div className="compare-kicker" variants={kickerVariants}>
+            <motion.div
+              className="flex items-center gap-[0.85rem] mb-4 font-sans text-lg text-muted"
+              variants={kickerVariants}
+            >
               <span className="kicker-star" aria-hidden="true" />
               <span>Pour être clair</span>
               <motion.span
-                className="compare-kicker-rule"
+                className="block flex-1 max-w-[4.5rem] h-px bg-rule [transform-origin:left]"
                 variants={ruleVariants}
               />
             </motion.div>
-            <motion.h2 variants={wordGroupVariants}>
+            <motion.h2
+              className="text-[clamp(var(--text-3xl),3.2vw,var(--text-4xl))]"
+              variants={wordGroupVariants}
+            >
               {TITLE.split(" ").map((word, i) => (
                 <span className="word-mask" key={`${word}-${i}`}>
                   <motion.span className="word" variants={wordVariants}>
@@ -118,10 +120,16 @@ export function Compare() {
             </motion.h2>
           </motion.div>
 
-          <div className="dossier-list" ref={listRef}>
-            <span className="dossier-rail" aria-hidden="true">
+          <div
+            className="relative grid gap-[clamp(2.25rem,5vw,3.5rem)]"
+            ref={listRef}
+          >
+            <span
+              className="absolute left-[3.25rem] top-[0.4rem] bottom-[0.4rem] w-[1.5px] bg-rule max-[640px]:left-10"
+              aria-hidden="true"
+            >
               <motion.span
-                className="dossier-rail-fill"
+                className="absolute inset-0 w-full bg-[linear-gradient(180deg,var(--color-orange),var(--color-gold),var(--color-sky))] [transform-origin:top]"
                 style={{ scaleY: scrollYProgress }}
               />
             </span>
@@ -130,7 +138,7 @@ export function Compare() {
               const Icon = item.icon;
               return (
               <motion.div
-                className="dossier-row"
+                className="flex gap-6 items-start max-[640px]:gap-4"
                 key={item.myth}
                 variants={rowVariants}
                 initial="hidden"
@@ -138,38 +146,37 @@ export function Compare() {
                 viewport={{ once: true, margin: "-15% 0px" }}
               >
                 <span
-                  className="dossier-icon"
+                  className="flex items-center justify-center w-10 h-10 flex-none rounded-none max-[640px]:w-8 max-[640px]:h-8"
                   style={{
                     background: `color-mix(in srgb, var(--${item.accent}) 20%, transparent)`,
                     color: ACCENT_COLOR[item.accent],
                   }}
                 >
-                  <Icon strokeWidth={1.75} />
+                  <Icon
+                    className="w-[18px] h-[18px] flex-none max-[640px]:w-[15px] max-[640px]:h-[15px]"
+                    strokeWidth={1.75}
+                  />
                 </span>
-                <div className="dossier-body">
-                  <p className="dossier-myth">
+                <div className="grid gap-[0.65rem] flex-1 min-w-0">
+                  <p className="relative justify-self-start w-fit max-w-full m-0 text-sm text-muted">
                     <motion.span
-                      className="dossier-redact"
+                      className="absolute inset-[-0.1em_-0.2em] bg-redact shadow-[0_0_0_1px_rgba(255,255,255,0.06)]"
                       variants={redactVariants}
                       style={{ originX: 1 }}
                       aria-hidden="true"
                     />
-                    <motion.span
-                      className="dossier-strike"
-                      variants={strikeVariants}
-                      style={{ originX: 0 }}
-                      aria-hidden="true"
-                    />
-                    {item.myth}
+                    <span className="line-through decoration-muted">
+                      {item.myth}
+                    </span>
                   </p>
-                  <p className="dossier-truth">
+                  <p className="relative m-0 font-serif text-[clamp(var(--text-lg),1.6vw,var(--text-xl))] text-text leading-[1.35]">
                     <motion.span
-                      className="dossier-highlight"
+                      className="absolute inset-[0.05em_-0.25em] bg-panel-tint [transform-origin:left]"
                       variants={highlightVariants}
                       style={{ originX: 0 }}
                       aria-hidden="true"
                     />
-                    <span className="dossier-truth-text">{item.truth}</span>
+                    <span className="relative">{item.truth}</span>
                   </p>
                 </div>
               </motion.div>
