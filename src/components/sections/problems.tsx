@@ -115,6 +115,7 @@ export function Problems() {
                   ease: EASE,
                 }}
               >
+                <span>Voir les offres</span>
                 <ArrowRight strokeWidth={1.75} />
               </motion.span>
             </span>

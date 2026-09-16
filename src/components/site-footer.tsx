@@ -1,17 +1,29 @@
 import Image from "next/image";
+import { Mail, MessageCircle } from "lucide-react";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion";
+import { InstagramGlyph } from "@/components/icons";
 
-const FOOTER_LINKS = [
-  { href: "#", label: "WhatsApp" },
-  { href: "#", label: "Instagram" },
-  { href: "#", label: "Email" },
+const NAV_LINKS = [
+  { href: "#programme", label: "Programme" },
+  { href: "#pedagogie", label: "Pédagogie" },
+  { href: "#temoignages", label: "Témoignages" },
+  { href: "#offres", label: "Offres" },
+];
+
+const SOCIAL_LINKS = [
+  { href: "#", label: "WhatsApp", icon: MessageCircle },
+  { href: "#", label: "Instagram", icon: InstagramGlyph },
+  { href: "#", label: "Email", icon: Mail },
 ];
 
 export function SiteFooter() {
+  const year = new Date().getFullYear();
+
   return (
     <footer>
       <div className="container">
-        <div className="footer-top">
-          <div>
+        <StaggerGroup className="footer-top" as="div">
+          <StaggerItem className="footer-col footer-col-brand">
             <div className="footer-brand">
               <span className="brand-mark">
                 <Image
@@ -36,19 +48,40 @@ export function SiteFooter() {
               Qur&rsquo;an et sciences islamiques, pensé pour apprendre avec
               méthode, clarté et sincérité.
             </p>
-          </div>
-          <ul className="footer-links">
-            {FOOTER_LINKS.map((link) => (
-              <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="footer-bottom">
-          <span>&copy; 2026 Bayān. Tous droits réservés.</span>
+          </StaggerItem>
+
+          <StaggerItem className="footer-col">
+            <span className="footer-col-label">Navigation</span>
+            <ul className="footer-nav">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </StaggerItem>
+
+          <StaggerItem className="footer-col">
+            <span className="footer-col-label">Nous suivre</span>
+            <ul className="footer-social">
+              {SOCIAL_LINKS.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <li key={link.label}>
+                    <a href={link.href} aria-label={link.label}>
+                      <Icon strokeWidth={1.75} />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </StaggerItem>
+        </StaggerGroup>
+
+        <Reveal className="footer-bottom">
+          <span>&copy; {year} Bayān. Tous droits réservés.</span>
           <span>Apprendre avec clarté.</span>
-        </div>
+        </Reveal>
       </div>
     </footer>
   );
