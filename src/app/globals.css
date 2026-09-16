@@ -1202,6 +1202,7 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 70%;
 }
 .journey-banner .scrim {
   position: absolute;
@@ -1327,6 +1328,15 @@ section {
 }
 
 /* ---------- testimonials ---------- */
+.testi-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--fs-lg);
+  color: var(--muted);
+}
 .testi-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1366,6 +1376,15 @@ section {
 }
 
 /* ---------- pricing ---------- */
+.pricing-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--fs-lg);
+  color: var(--muted);
+}
 .pricing-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1383,7 +1402,7 @@ section {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--card-border);
-  background: var(--bg-raised);
+  background: var(--panel-tint);
   transition:
     transform 0.3s var(--ease),
     box-shadow 0.3s var(--ease);
@@ -1403,8 +1422,27 @@ section {
 .price-card.featured .price-row {
   border-top-color: rgba(245, 245, 237, 0.16);
 }
+.price-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+.price-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border-radius: var(--radius);
+}
+.price-icon svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
 .price-card .tag {
-  align-self: flex-start;
   height: 1.25rem;
   display: inline-flex;
   align-items: center;
@@ -1413,9 +1451,8 @@ section {
   letter-spacing: 0.04em;
   padding-inline: 0.55rem;
   border-radius: var(--radius);
-  margin-bottom: 1rem;
-  color: var(--sky-ink);
-  border: 1px solid var(--sky-ink);
+  color: var(--orange);
+  border: 1px solid var(--orange);
 }
 .price-card.featured .tag {
   color: var(--gold);
@@ -1484,17 +1521,48 @@ section {
 
 /* ---------- final cta ---------- */
 .final-cta {
+  position: relative;
+  overflow: hidden;
   text-align: center;
 }
+.final-cta-img {
+  position: absolute;
+  inset: -18% 0;
+}
+.final-cta-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.final-cta .scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 12, 8, 0.55),
+    rgba(20, 12, 8, 0.45) 45%,
+    rgba(20, 12, 8, 0.78)
+  );
+}
 .final-cta .container {
+  position: relative;
   max-width: 42rem;
 }
 .final-cta h2 {
-  font-size: clamp(var(--fs-3xl), 4vw, var(--fs-5xl));
+  color: var(--cream);
+  font-size: clamp(1.35rem, 7.5vw, var(--fs-5xl));
+  white-space: nowrap;
   margin-bottom: 1.25rem;
 }
-.final-cta .eyebrow {
+.final-cta-kicker {
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--fs-lg);
+  color: var(--gold);
 }
 .final-cta .btn {
   margin-inline: auto;

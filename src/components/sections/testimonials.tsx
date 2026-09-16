@@ -1,5 +1,4 @@
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion";
-import { Spark } from "@/components/icons";
 
 const TESTIMONIALS = [
   {
@@ -33,9 +32,9 @@ export function Testimonials() {
     <section id="temoignages">
       <div className="container">
         <Reveal className="section-head">
-          <div className="eyebrow c-sky">
-            <Spark />
-            Ils apprennent avec Bayān
+          <div className="testi-kicker">
+            <span className="kicker-star" aria-hidden="true" />
+            <span>Ils apprennent avec Bayān</span>
           </div>
           <h2>Ce qu&rsquo;en disent les étudiants</h2>
         </Reveal>

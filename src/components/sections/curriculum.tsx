@@ -83,7 +83,7 @@ function JourneyBanner() {
     <div className="journey-banner" ref={bannerRef}>
       <motion.div className="journey-banner-img" style={{ y, scale }}>
         <Image
-          src="/images/journey-banner.webp"
+          src="/images/journey-banner.png"
           alt="Voyageur et chameau traversant le désert au coucher du soleil"
           width={1800}
           height={600}
@@ -110,7 +110,6 @@ function JourneyBanner() {
             </span>
           ))}
         </motion.h2>
-        <motion.span className="cap-rule" variants={ruleVariants} />
       </motion.div>
     </div>
   );
